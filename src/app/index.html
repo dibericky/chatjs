@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Socket.IO chat</title>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { font: 13px Helvetica, Arial; }
+      #formChat { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
+      #formChat input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
+      #formChat button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
+      #messages { list-style-type: none; margin: 0; padding: 0; }
+      #messages li { padding: 5px 10px; }
+      #messages li:nth-child(odd) { background: #eee; }
+    </style>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <script>
+        const isTypingMap = {}
+        $(function(){
+            var socket = io()
+
+            $("#formName").submit(e =>{
+                e.preventDefault()
+                const name = $("#name").val()
+                socket.name = name
+                socket.emit('newUser', {username:name})
+                $("#nameDiv").addClass('bounceOut')
+                $("#chatDiv").addClass('bounceIn')
+            })
+            
+
+            $('#formChat').submit(function(e){
+                e.preventDefault()
+                socket.emit('chat message', $('#m').val())
+                addNewMessage(socket.name, $('#m').val())
+                $('#m').val('')
+                return false
+            })
+            socket.on('chat message', msgObj =>{
+                addNewMessage(msgObj.username, msgObj.msg)
+            })
+            socket.on('newUser', obj=>{
+                newUserConnected(obj.username)
+            })
+            socket.on('isTyping', obj=>{
+                isTyping(obj.username)
+            })
+            socket.on('onlineUsersList', usersList => {
+                console.log(usersList)
+            })
+            $('#m').keypress(()=>{
+                socket.emit('isTyping')
+            })
+        })
+        
+        function addNewMessage(username, msg){
+            $('#messages').append($('<li>').text(`${username}: ${msg}`))
+            setEndTyping(username)
+        }
+        function newUserConnected(username){
+            $('#messages').append($('<li>').text(`${username} connected`))
+        }
+        function isTyping(username){
+            isTypingMap[username] = Date.now()
+            $("#isTyping").text(`${username} is typing...`)
+            setTimeout(()=>{
+                const timePassed = Date.now() - isTypingMap[username]
+                if(timePassed > 2000){
+                    setEndTyping(username)
+                }
+            }, 3000)
+        }
+        function setEndTyping(username){
+            $("#isTyping").text('')
+            delete isTypingMap[username] 
+        }
+    </script>
+  </head>
+  <body>
+    <div id='nameDiv' class='animated'>
+        <form id='formName' action="">
+            <input id="name" autocomplete="off" /><button>Confirm</button>
+        </form>
+       
+    </div>
+    <div id='chatDiv' class='animated'>
+        <ul id="messages"></ul>
+           <span id="isTyping"></span>
+           <form id='formChat' action="">
+               <input id="m" autocomplete="off" /><button>Send</button>
+           </form>
+    </div>
+  </body>
+</html>
