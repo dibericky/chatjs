@@ -2,11 +2,9 @@ var app = require('express')()
 var http = require('http').Server(app)
 var io = require('socket.io')(http)
 
-app.get('/', function(req,res){
-    res.sendFile(__dirname + '/app/index.html')
-})
+const PORT = process.env.PORT || 3000
 const users = {}
-let index = 0
+
 io.on('connection', function(socket){
 
     socket.on('chat message', (msg)=>{
@@ -39,6 +37,9 @@ function sendOnlineUsersList(socket){
 }
 
 
-http.listen(3000, function(){
-    console.log('listening on post 3000')
+app.get('/', function(req,res){
+    res.sendFile(__dirname + '/app/index.html')
+})
+http.listen(PORT, function(){
+    console.log('listening on post '+PORT)
 })
