@@ -19,7 +19,6 @@ io.on('connection', function(socket){
     })
     socket.on('newUser', (obj)=>{
         socket.username = obj.username
-        index++
         users[socket.username] = 1
         sendOnlineUsersList(socket)
 
