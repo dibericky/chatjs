@@ -1,0 +1,41 @@
+#chatDiv{
+    display: none;
+    height: 100%;
+    width: 100%;
+}
+#formChat{
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+#formName{
+    width: 100%;
+}
+.margin-vertical{
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}
+#msgInput{
+    position: fixed;
+    left: 0;
+    bottom: 0;
+}
+#msgSubmit{
+    position: fixed;
+    right: 0;
+    bottom: 0;
+}
+#messages { 
+    list-style-type: none; 
+    margin: 0; 
+    padding: 0; 
+}
+#messages li { 
+    padding: 5px 10px; 
+}
+#messages li:nth-child(odd) { 
+    background: #d5eef8; 
+}
+.isMe {
+    text-align: right;
+}

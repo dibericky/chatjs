@@ -2,7 +2,16 @@
 <html>
   <head>
     <title>Socket.IO chat</title>
-    <style>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="bootstrap.min.css" />
+    <link rel="stylesheet" href="animate.min.css" />
+    <link rel="stylesheet" href="style.css" />
+    
+    
+    <!--<style>
       * { margin: 0; padding: 0; box-sizing: border-box; }
       body { font: 13px Helvetica, Arial; }
       #formChat { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
@@ -11,84 +20,37 @@
       #messages { list-style-type: none; margin: 0; padding: 0; }
       #messages li { padding: 5px 10px; }
       #messages li:nth-child(odd) { background: #eee; }
-    </style>
+    </style>-->
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
-    <script>
-        const isTypingMap = {}
-        $(function(){
-            var socket = io()
-
-            $("#formName").submit(e =>{
-                e.preventDefault()
-                const name = $("#name").val()
-                socket.name = name
-                socket.emit('newUser', {username:name})
-                $("#nameDiv").addClass('bounceOut')
-                $("#chatDiv").addClass('bounceIn')
-            })
-            
-
-            $('#formChat').submit(function(e){
-                e.preventDefault()
-                socket.emit('chat message', $('#m').val())
-                addNewMessage(socket.name, $('#m').val())
-                $('#m').val('')
-                return false
-            })
-            socket.on('chat message', msgObj =>{
-                addNewMessage(msgObj.username, msgObj.msg)
-            })
-            socket.on('newUser', obj=>{
-                newUserConnected(obj.username)
-            })
-            socket.on('isTyping', obj=>{
-                isTyping(obj.username)
-            })
-            socket.on('onlineUsersList', usersList => {
-                console.log(usersList)
-            })
-            $('#m').keypress(()=>{
-                socket.emit('isTyping')
-            })
-        })
-        
-        function addNewMessage(username, msg){
-            $('#messages').append($('<li>').text(`${username}: ${msg}`))
-            setEndTyping(username)
-        }
-        function newUserConnected(username){
-            $('#messages').append($('<li>').text(`${username} connected`))
-        }
-        function isTyping(username){
-            isTypingMap[username] = Date.now()
-            $("#isTyping").text(`${username} is typing...`)
-            setTimeout(()=>{
-                const timePassed = Date.now() - isTypingMap[username]
-                if(timePassed > 2000){
-                    setEndTyping(username)
-                }
-            }, 3000)
-        }
-        function setEndTyping(username){
-            $("#isTyping").text('')
-            delete isTypingMap[username] 
-        }
-    </script>
+    <script src="script.js"></script>
   </head>
   <body>
-    <div id='nameDiv' class='animated'>
-        <form id='formName' action="">
-            <input id="name" autocomplete="off" /><button>Confirm</button>
-        </form>
-       
-    </div>
-    <div id='chatDiv' class='animated'>
-        <ul id="messages"></ul>
-           <span id="isTyping"></span>
-           <form id='formChat' action="">
-               <input id="m" autocomplete="off" /><button>Send</button>
-           </form>
-    </div>
+      <div class='container'>
+            <div class='row'>
+                <div id='nameDiv' class='animated col-md-12'>
+                    <form id='formName' action="">
+                        <div class='row'>
+                            <input id="name" type="text" class="col-md-8 col-12 form-control margin-vertical" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" autocomplete="off">
+                            <button class='col-md-3 col-12 btn btn-primary margin-vertical'>Confirm</button>
+                            <p id='warning' class='col-12'></p>
+                        </div>
+                </form>
+                    
+                </div>   
+            </div>
+            <div class='row'>
+                <div id='chatDiv' class='animated'>
+                    <ul id="messages"></ul>
+                    <span id="isTyping"></span>
+                    <form id='formChat' action="">
+                        <input id="msgInput" class='col-10 form-control' autocomplete="off" />
+                        <button id="msgSubmit" class='col-2 btn btn-primary'>Send</button>
+                    </form>
+                </div>
+            </div>
+      </div>
+    
+    
   </body>
 </html>
