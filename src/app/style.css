@@ -1,3 +1,16 @@
+html {
+    height: 100%;
+}
+body {
+    min-height: 100%;
+}
+.container{
+    position: absolute;
+    height: 100%;
+    left: 0;
+    right: 0;
+    background: #abece1;;
+}
 #chatDiv{
     display: none;
     height: 100%;
@@ -34,8 +47,22 @@
     padding: 5px 10px; 
 }
 #messages li:nth-child(odd) { 
-    background: #d5eef8; 
+    background: #fcfeff55; 
 }
 .isMe {
     text-align: right;
+}
+#onlineUsers{    
+    list-style-type: none;
+}
+#onlineUsers li {
+    display: inline-block;
+    background: #edfeff;
+    font-size: 15px;
+    padding: 0.1em 0.8em;
+    margin-right: 0.5em;
+    border-radius: 3em;
+    margin-top: 0.3em;
+    min-width: 3em;
+    text-align: center;
 }

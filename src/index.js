@@ -45,7 +45,8 @@ function alreadyExists(username){
     return Object.keys(users).includes(username)
 }
 
-function sendOnlineUsersList(socket){
+function sendOnlineUsersList(socket){ //BUG
+    socket.emit('onlineUsersList', users)
     socket.broadcast.emit('onlineUsersList', users)
 }
 

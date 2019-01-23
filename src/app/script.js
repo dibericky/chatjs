@@ -38,8 +38,12 @@ $(function(){
     })
     socket.on('onlineUsersList', usersList => {
         console.log(usersList)
+        $("#onlineUsers").html('')
+        Object.keys(usersList).forEach(user => {
+            $("#onlineUsers").append($(`<li>`).text(`${user}`))
+        })
     })
-    $('#m').keypress(()=>{
+    $('#msgInput').keypress(()=>{
         socket.emit('isTyping')
     })
 })
