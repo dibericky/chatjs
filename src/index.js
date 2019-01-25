@@ -16,14 +16,15 @@ io.on('connection', function(socket){
     })
     socket.on('disconnect', function(){
         delete users[socket.username]
-        sendOnlineUsersList(socket)
+        alertDisconnection(socket.username)
+        sendOnlineUsersList()
     })
     socket.on('newUser', (obj)=>{
         const exists = alreadyExists(obj.username)
         if(!exists){
             socket.username = obj.username
             users[socket.username] = 1
-            sendOnlineUsersList(socket)
+            sendOnlineUsersList()
     
             socket.broadcast.emit('newUser', {
                 username: socket.username
@@ -45,11 +46,16 @@ function alreadyExists(username){
     return Object.keys(users).includes(username)
 }
 
-function sendOnlineUsersList(socket){ //BUG
-    socket.emit('onlineUsersList', users)
-    socket.broadcast.emit('onlineUsersList', users)
+function sendOnlineUsersList(){ 
+    const usersName = Object.keys(users);
+    sendMessageToAll('onlineUsersList', usersName)
 }
-
+function sendMessageToAll(event, object){
+    io.emit(event, object)
+}
+function alertDisconnection(username){
+    sendMessageToAll('disconnect', {username: username})
+}
 app.use('/', express.static(__dirname + '/app'))
 
 http.listen(PORT, function(){

@@ -31,21 +31,25 @@ $(function(){
         addNewMessage(msgObj.username, msgObj.msg)
     })
     socket.on('newUser', obj=>{
-        newUserConnected(obj.username)
+        newUserConnected(obj.username, true)
     })
     socket.on('isTyping', obj=>{
-        isTyping(obj.username)
+        isTyping(obj.username, true)
     })
     socket.on('onlineUsersList', usersList => {
         console.log(usersList)
         $("#onlineUsers").html('')
-        Object.keys(usersList).forEach(user => {
+        usersList.forEach(user => {
             $("#onlineUsers").append($(`<li>`).text(`${user}`))
         })
+    })
+    socket.on('disconnect', obj => {
+        newUserConnected(obj.username, false)
     })
     $('#msgInput').keypress(()=>{
         socket.emit('isTyping')
     })
+    socket.on('a', obj => console.log(obj))
 })
 
 function addNewMessage(username, msg, isMe){
@@ -54,8 +58,8 @@ function addNewMessage(username, msg, isMe){
     $('#messages').append($(`<li ${isMeClass}>`).text(`${username}: ${msg}`))
     setEndTyping(username)
 }
-function newUserConnected(username){
-    $('#messages').append($('<li>').text(`${username} connected`))
+function newUserConnected(username, isConnected){
+    $('#messages').append($('<li>').text(`${username} ${isConnected?'connected':'disconnected'}`))
 }
 function isTyping(username){
     isTypingMap[username] = Date.now()

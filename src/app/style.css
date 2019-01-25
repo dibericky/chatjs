@@ -4,12 +4,23 @@ html {
 body {
     min-height: 100%;
 }
+h1{
+    font-family: 'Indie Flower', cursive;
+    text-align: center;
+    color: #5dab9e;
+    box-shadow: 2px 2px #66666626;
+    padding-bottom: 0.5em;
+    padding-top: 0.5em;
+    font-size: 3em;
+}
 .container{
     position: absolute;
     height: 100%;
     left: 0;
     right: 0;
     background: #abece1;;
+    max-height: 100%;
+    overflow-y: scroll;
 }
 #chatDiv{
     display: none;
@@ -24,9 +35,12 @@ body {
 #formName{
     width: 100%;
 }
+#formName input, #formName button{
+    margin: 0 auto;
+}
 .margin-vertical{
-    margin-top: 0.5em;
-    margin-bottom: 0.5em;
+    margin-top: 0.5em !important;
+    margin-bottom: 0.5em !important;
 }
 #msgInput{
     position: fixed;
@@ -37,11 +51,19 @@ body {
     position: fixed;
     right: 0;
     bottom: 0;
+    text-align: center;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
 }
 #messages { 
     list-style-type: none; 
     margin: 0; 
     padding: 0; 
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: calc(2.25rem + 2px);
+    padding-bottom: 10px;
 }
 #messages li { 
     padding: 5px 10px; 
