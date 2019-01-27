@@ -11,17 +11,6 @@
     <link rel="stylesheet" href="animate.min.css" />
     <link rel="stylesheet" href="style.css" />
     
-    
-    <!--<style>
-      * { margin: 0; padding: 0; box-sizing: border-box; }
-      body { font: 13px Helvetica, Arial; }
-      #formChat { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
-      #formChat input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
-      #formChat button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
-      #messages { list-style-type: none; margin: 0; padding: 0; }
-      #messages li { padding: 5px 10px; }
-      #messages li:nth-child(odd) { background: #eee; }
-    </style>-->
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
     <script src="script.js"></script>
@@ -33,6 +22,9 @@
                     <div class='col-12'>
                         <h1>ChatJS</h1>
                     </div>
+                    <div id='chatImg'>
+                        <img src='chat.png' class='animated' />
+                    </div>
                     <form id='formName' action="">
                         <div class='row'>
                             <input id="name" type="text" class="col-md-8 col-12 form-control margin-vertical" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" autocomplete="off">
@@ -43,9 +35,9 @@
                     
                 </div>   
             </div>
-            <div class='row'>
+            <div id='chatContainer' class='row animated'>
                 <ul id='onlineUsers'></ul>
-                <div id='chatDiv' class='animated'>
+                <div id='chatDiv'>
                     <ul id="messages"></ul>
                     <span id="isTyping"></span>
                     <form id='formChat' action="">
@@ -55,5 +47,6 @@
                 </div>
             </div>
     </div>
+    <footer><div>Icons made by <a href="https://www.flaticon.com/authors/vectors-market" title="Vectors Market">Vectors Market</a> from <a href="https://www.flaticon.com/" 			    title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" 			    title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div></footer>
   </body>
 </html>

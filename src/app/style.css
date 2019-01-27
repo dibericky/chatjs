@@ -4,11 +4,18 @@ html {
 body {
     min-height: 100%;
 }
+footer{
+    position: fixed;
+    bottom: 0;
+    font-size: 12px;
+    width: 100%;
+    text-align: center;
+}
 h1{
     font-family: 'Indie Flower', cursive;
     text-align: center;
     color: #5dab9e;
-    box-shadow: 2px 2px #66666626;
+    box-shadow: 0px 2px #66666626;
     padding-bottom: 0.5em;
     padding-top: 0.5em;
     font-size: 3em;
@@ -20,12 +27,29 @@ h1{
     right: 0;
     background: #abece1;;
     max-height: 100%;
-    overflow-y: scroll;
+    box-shadow: 2px 2px 5px #1152477d;
+}
+#chatContainer{
+    display: none;
 }
 #chatDiv{
-    display: none;
     height: 100%;
     width: 100%;
+}
+#chatImg{
+    position: relative;
+    height: 15em;
+}
+#chatImg img{
+    height: 10em;
+    margin: 0 auto;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 2.5em;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.5s;
 }
 #formChat{
     position: fixed;
@@ -64,6 +88,8 @@ h1{
     right: 0;
     bottom: calc(2.25rem + 2px);
     padding-bottom: 10px;
+    max-height: calc(100% - 2.25rem - 2.8em);
+    overflow-y: auto;
 }
 #messages li { 
     padding: 5px 10px; 
@@ -76,6 +102,12 @@ h1{
 }
 #onlineUsers{    
     list-style-type: none;
+    width: 100%;
+    background: #27ab958f;
+    z-index: 999;
+    padding-bottom: 0.5em;
+    padding-top: 0.3em;
+    box-shadow: 0px 2px #4e9287;
 }
 #onlineUsers li {
     display: inline-block;

@@ -1,7 +1,12 @@
 const isTypingMap = {}
 $(function(){
     var socket = io()
-
+    setTimeout(()=>{
+        $("#chatImg img").show()
+        $("#chatImg img").css("opacity", "1")
+        $("#chatImg img").addClass('slideInLeft')   
+    }, 500)
+    
     $("#formName").submit(e =>{
         e.preventDefault()
         const name = $("#name").val()
@@ -23,7 +28,8 @@ $(function(){
             $("#warning").text('Nome utente già in uso')
         }else{
             $("#nameDiv").fadeOut()
-            $("#chatDiv").fadeIn()
+            $("#chatContainer").fadeIn()
+            $("footer").hide()
         }
     })
     socket.on('chat message', msgObj =>{
@@ -57,6 +63,7 @@ function addNewMessage(username, msg, isMe){
     if(isMe) isMeClass = "class='isMe'"
     $('#messages').append($(`<li ${isMeClass}>`).text(`${username}: ${msg}`))
     setEndTyping(username)
+    scrollChat()
 }
 function newUserConnected(username, isConnected){
     $('#messages').append($('<li>').text(`${username} ${isConnected?'connected':'disconnected'}`))
@@ -74,4 +81,8 @@ function isTyping(username){
 function setEndTyping(username){
     $("#isTyping").text('')
     delete isTypingMap[username] 
+}
+function scrollChat(){
+    const container = $("#messages")[0]
+    container.scrollTop = container.scrollHeight;
 }
